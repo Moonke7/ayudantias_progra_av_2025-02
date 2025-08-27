@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+// ------------------ EJERCICIO 1 --------------------
 class CuentaBancaria
 {
 private:
@@ -42,6 +43,7 @@ public:
     }
 };
 
+// ------------------ EJERCICIO 2 --------------------
 class Alumno
 {
 private:
@@ -55,9 +57,10 @@ public:
         rut = _rut;
         for (int i = 0; i < 10; i++)
         {
-            notas[i] = NULL;
+            notas[i] = 0;
         }
     }
+    // getters
     string getNombre()
     {
         return nombre;
@@ -67,7 +70,19 @@ public:
         return rut;
     }
 
-    void agregarNota(float nota){
+    // setters
+    void setNombre(string _nombre)
+    {
+        nombre = _nombre;
+    }
+    void setRut(string _rut)
+    {
+        rut = _rut;
+    }
+
+    // metodos
+    void agregarNota(float nota)
+    {
         for (int i = 0; i < 10; i++)
         {
             if (notas[i] == NULL)
@@ -78,7 +93,9 @@ public:
         }
         cout << "No se pueden agregar más notas" << endl;
     }
-    float getPromedio(){
+
+    float getPromedio()
+    {
         float suma = 0;
         int contador = 0;
         for (int i = 0; i < 10; i++)
@@ -89,10 +106,12 @@ public:
                 contador++;
             }
         }
-        if (contador == 0) return 0;
+        if (contador == 0)
+            return 0;
         return suma / contador;
     }
-    void mostrarInformacion(){
+    void mostrarInformacion()
+    {
         cout << "Nombre: " << nombre << endl;
         cout << "RUT: " << rut << endl;
         cout << "Notas: ";
@@ -108,8 +127,90 @@ public:
     }
 };
 
-int
-main()
+// ------------------ EJERCICIO 3 --------------------
+class Libro
+{
+private:
+    string titulo, autor;
+
+public:
+    Libro(string _titulo, string _autor)
+    {
+        titulo = _titulo;
+        autor = _autor;
+    }
+
+    // setters
+    string getTitulo()
+    {
+        return titulo;
+    }
+    string getAutor()
+    {
+        return autor;
+    }
+    // getters
+    void setTitulo(string _titulo)
+    {
+        titulo = _titulo;
+    }
+    void setAutor(string _autor)
+    {
+        autor = _autor;
+    }
+
+    // metodos
+    void mostrarInfo()
+    {
+        cout << "Titulo: " << titulo << endl;
+        cout << "Autor: " << autor << endl;
+    }
+};
+
+class Biblioteca
+{
+private:
+    string nombre;
+    int cantidad_libros;
+    Libro *libros[5];
+
+public:
+    Biblioteca(string _nombre)
+    {
+        nombre = _nombre;
+        cantidad_libros = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            libros[i] = NULL;
+        }
+    }
+
+    // metodos
+    void agregarLibro(Libro *libro)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (libros[i] == NULL)
+            {
+                libros[i] = libro;
+                cantidad_libros++;
+                return;
+            }
+        }
+        cout << "No se pueden agregar más libros" << endl;
+    }
+
+    void mostrarLibros()
+    {
+        cout << "Libros en la biblioteca " << nombre << ":" << endl;
+        for (int i = 0; i < cantidad_libros; i++)
+        {
+            libros[i]->mostrarInfo();
+        }
+    }
+};
+
+int main()
 {
     /* CuentaBancaria *cuenta = new CuentaBancaria("Juan Perez");
     cuenta->Depositar(500);
@@ -118,6 +219,18 @@ main()
     cout << "Titular: " << cuenta->getTitular() << endl;
     cout << "Saldo: " << cuenta->getSaldo() << endl; */
 
-    
+    /* Alumno *alumno = new Alumno("Pedro", "12345678-9");
+    alumno->agregarNota(6.5);
+    alumno->agregarNota(7.0);
+    alumno->agregarNota(5.5);
+    alumno->mostrarInformacion(); */
+
+    Biblioteca *biblioteca = new Biblioteca("Biblioteca Central");
+    Libro *libro1 = new Libro("El Quijote", "Miguel de Cervantes");
+    Libro *libro2 = new Libro("Las locuras del mono", "George Orwell");
+    biblioteca->agregarLibro(libro1);
+    biblioteca->agregarLibro(libro2);
+    biblioteca->mostrarLibros();
+
     return 0;
 }
