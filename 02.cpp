@@ -145,12 +145,12 @@ int main()
     alumno->agregarNota(5.5);
     alumno->mostrarInformacion(); */
 
-    Biblioteca *biblioteca = new Biblioteca("Biblioteca Central");
+    /* Biblioteca *biblioteca = new Biblioteca("Biblioteca Central");
     Libro *libro1 = new Libro("El Quijote", "Miguel de Cervantes");
     Libro *libro2 = new Libro("Las locuras del mono", "George Orwell");
     biblioteca->agregarLibro(libro1);
     biblioteca->agregarLibro(libro2);
-    biblioteca->mostrarLibros();
+    biblioteca->mostrarLibros(); */
 
     return 0;
 }
