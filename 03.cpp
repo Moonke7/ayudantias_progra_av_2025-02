@@ -268,20 +268,253 @@ public:
         ocio += _ocio;
     }
 
-    void imprimirResumen(){
+    void imprimirResumen()
+    {
         int suma = vestuario + alimentacion + movilizacion + ocio;
         cout << "-- Resumen de Gastos del Mes --" << endl;
-        cout << "En vestuario se ha gastado: " << vestuario << ", lo que corresponde al " << (vestuario*100)/suma << "%" << endl;
-        cout << "En alimentacion se ha gastado: " << alimentacion << ", lo que corresponde al " << (alimentacion*100)/suma << "%" << endl;
-        cout << "En movilizacion se ha gastado: " << movilizacion << ", lo que corresponde al " << (movilizacion*100)/suma << "%" << endl;
-        cout << "En ocio se ha gastado: " << ocio << ", lo que corresponde al " << (ocio*100)/suma << "%" << endl;
+        cout << "En vestuario se ha gastado: " << vestuario << ", lo que corresponde al " << (vestuario * 100) / suma << "%" << endl;
+        cout << "En alimentacion se ha gastado: " << alimentacion << ", lo que corresponde al " << (alimentacion * 100) / suma << "%" << endl;
+        cout << "En movilizacion se ha gastado: " << movilizacion << ", lo que corresponde al " << (movilizacion * 100) / suma << "%" << endl;
+        cout << "En ocio se ha gastado: " << ocio << ", lo que corresponde al " << (ocio * 100) / suma << "%" << endl;
         cout << "El gasto total es: " << suma;
-        if (suma > presupuestoMensual){
+        if (suma > presupuestoMensual)
+        {
             cout << ", por lo que se ha excedido el presupuesto mensual de " << presupuestoMensual << endl;
-        } else {
+        }
+        else
+        {
             cout << ", por lo que no se ha excedido el presupuesto mensual de " << presupuestoMensual << endl;
         }
     }
+};
+
+class Atleta
+{
+private:
+    string nombreAtleta, pais;
+    float tiempoAntesFinal, tiempoFinal;
+
+public:
+    Atleta(string _nombreAtleta, string _pais, float _tiempoAntes)
+    {
+        nombreAtleta = _nombreAtleta;
+        pais = _pais;
+        tiempoAntesFinal = _tiempoAntes;
+        tiempoFinal = 0;
+    }
+
+    void registrarTiempoFinal(float tiempo)
+    {
+        tiempoFinal = tiempo;
+    }
+
+    void imprimir()
+    {
+        cout << "---------------- Info del atleta ---------------" << endl;
+        cout << "Nombre: " << nombreAtleta << endl;
+        cout << "Pais: " << pais << endl;
+        cout << "Mejor tiempo antes de final: " << tiempoAntesFinal << endl;
+
+        if (tiempoFinal != 0)
+        {
+            // cout << "Tiempo en la final: "<< tiempoFinal << endl;
+            cout << "Porcentaje respecto a su mejor tiempo anterior: " << (tiempoFinal * 100) / tiempoAntesFinal << endl;
+        }
+    }
+
+    float getTiempoFinal()
+    {
+        return tiempoFinal;
+    }
+
+    string getNombre()
+    {
+        return nombreAtleta;
+    }
+};
+
+class Carrera
+{
+private:
+    Atleta *atletas[8];
+
+public:
+    Carrera()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            atletas[i] = NULL;
+        }
+    }
+
+    void agregarAtleta(Atleta *atleta)
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            if (atletas[i] == NULL)
+            {
+                atletas[i] = atleta;
+                return;
+            }
+        }
+
+        cout << "No hay espacio disponible" << endl;
+    }
+
+    void imprimirParticipantes()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            if (atletas[i] != NULL)
+            {
+                atletas[i]->imprimir();
+            }
+        }
+    }
+
+    string muestraGanador()
+    {
+        float mejorTiempo = 99999;
+
+        for (int i = 0; i < 8; i++)
+        {
+            if (atletas[i] != NULL)
+            {
+                if (atletas[i]->getTiempoFinal() < mejorTiempo && atletas[i]->getTiempoFinal() != 0)
+                {
+                    mejorTiempo = atletas[i]->getTiempoFinal();
+                }
+            }
+        }
+
+        for (int i = 0; i < 8; i++){
+            if (atletas[i] != NULL){
+                if (atletas[i]->getTiempoFinal() == mejorTiempo){
+                    return atletas[i]->getNombre();
+                }
+            }
+        }
+
+        return "Carrera aún no realizada";
+    }
+};
+
+// ------------------ Ejercicio 3 ---------------------
+class Volcan{
+    private:
+        string nombre;
+        float altitud;
+    public:
+        void imprimir(){
+            cout << nombre <<endl;
+            cout << altitud << endl;
+        }
+};
+
+class Sernageomin{
+    private:
+        Volcan *volcanes[20];
+    
+    public:
+        Sernageomin(){
+            for (int i = 0; i < 20; i++){
+                volcanes[i] = NULL;
+            }
+        }
+
+        void agregarVolcanes(Volcan *volcan){
+            for (int i = 0; i < 20; i++){
+                if(volcanes[i] == NULL){
+                    volcanes[i] = volcan;
+                    return;
+                }
+            }
+
+            cout << "El registro de volcanes ta lleno" << endl;
+        }
+};
+
+
+// ----------------- Ejercicio 5 -----------------
+class Depto{
+    private:
+        int numeroDepto;
+        string nombreDueño;
+        string rut;
+        int m2Depto, m2Edificio;
+        int montoGastoComun;
+        int fecha;
+
+    public:
+        Depto(int _numeroDepto, string _nombreDueño, string _rut, int _m2Depto, int _m2Edicio, int _fecha){
+            numeroDepto = _numeroDepto;
+            nombreDueño = _nombreDueño;
+            rut = _rut;
+            m2Depto = _m2Depto;
+            m2Edificio = _m2Edicio;
+            fecha = _fecha;
+            montoGastoComun = 0;
+        }
+
+        int getNumeroDepto(){
+            return numeroDepto;
+        }
+        string getNombreDueño(){
+            return nombreDueño;
+        }
+        string getRut(){
+            return rut;
+        }
+        int getM2Depto(){
+            return m2Depto;
+        }
+        int getM2Edificio(){
+            return m2Edificio;
+        }
+        int getMontoGastoComun(){
+            return montoGastoComun;
+        }
+        int getFecha(){
+            return fecha;
+        }
+
+        void setNumeroDepto(int _numeroDepto){
+            numeroDepto = _numeroDepto;
+        }
+        void setNombreDueño(string _nombreDueño){
+            nombreDueño = _nombreDueño;
+        }
+        void setRut(string _rut){
+            rut = _rut;
+        }
+        void setM2Depto(int _m2Depto){
+            m2Depto = _m2Depto;
+        }
+        void setM2Edificio(int _m2Edificio){
+            m2Edificio = _m2Edificio;
+        }
+        void setMontoGastoComun(int _montoGastoComun){
+            montoGastoComun = _montoGastoComun;
+        }
+        void setFecha(int _fecha){
+            fecha = _fecha;
+        }
+
+        int CalcularGastoComun(int gastoMes){
+            int porcentaje = (m2Depto * 100) / m2Edificio;
+            int nuevoGastoComun = porcentaje * gastoMes;
+
+            montoGastoComun = nuevoGastoComun;
+            return nuevoGastoComun;
+        }
+
+        bool verMoroso(int _nuevaFecha){
+            if (fecha < _nuevaFecha){
+                return true;
+            } else{
+                return false;
+            }
+        }
 };
 
 int main()
@@ -303,6 +536,8 @@ int main()
     biblioteca.buscarPorTitulo("x_titulo");
 
     biblioteca.filtrarPorAño(); */
+
+    Atleta *at1 = new Atleta("chile", "juan", 90);
 
     return 0;
 }
