@@ -1,180 +1,99 @@
+// 01 de la solemne 
 #include <iostream>
-#include <cmath>
+#include <stack>
+#include <queue>
+#include <map>
+
 using namespace std;
 
-/* int main()
-{
-    int *puntero;
-    int valor = 8;
-    puntero = &valor;
+class Encuestas {
+    private:
+        queue<string> encuesta_1;
+        stack<string> encuesta_2;
 
-    cout << *puntero << endl;
+    public:
+        Encuestas() {};
 
-    cout << "Cambiando valor de valor a 20" << endl;
-    valor = 20;
-    cout << *puntero << endl;
+        void insertarRespuesta (int numeroEncuesta , string respuesta ){
+            if (numeroEncuesta == 1){
+                encuesta_1.push(respuesta);
+            } else if (numeroEncuesta == 2){
+                encuesta_2.push(respuesta);
+            } else {
+                cout << "numero de encuesta invalido" << endl;
+            }
+        }
+
+        int cantidadCambioRespuesta () {
+            if (encuesta_1.size() != encuesta_2.size()){
+                return -1;
+            }
+
+            queue<string> colaAux = encuesta_1;
+            stack<string> pilaAux = encuesta_2;
+
+            int cambios = 0;
+
+            while(!colaAux.empty()){
+                if(colaAux.front() != pilaAux.top()){
+                    cambios++;
+                }
+
+                colaAux.pop();
+                pilaAux.pop();
+            }
+
+            return cambios;
+        }
+        
+        void imprimeResultadoEncuesta2(){
+            stack<string> pilaAux = encuesta_2;
+            map<string, int> resultados;
+
+            // int af = 0, ec = 0, i = 0, nc = 0;
+
+            while (!pilaAux.empty()){
+                string respuesta =  pilaAux.top();
+
+                // if (respuesta == "A favor"){
+                //     af++;
+                // } else if (respuesta == "En contra"){
+                //     ec++;
+                // } else if(respuesta == "Indeciso"){
+                //     i++;
+                // } else {
+                //     nc++;
+                // }
+
+                resultados[respuesta]++;
+
+                pilaAux.pop();
+            }
+
+            for (auto &par : resultados){
+                cout << "cantidad " << par.first << ": " << par.second << endl;
+            }
+
+            // cout << "cantidad de a favor: "<< af << endl;
+        }
+    
+};
+
+int main() {
+
+    Encuestas *e = new Encuestas();
+
+    e->insertarRespuesta(1, "A favor"); // persona 1
+    e->insertarRespuesta(1, "En contra"); // persona 2
+    e->insertarRespuesta(1, "Indeciso"); // persona 3
+
+    // prueba con 1 cambio 
+    e->insertarRespuesta(2, "Indeciso"); // persona 3
+    e->insertarRespuesta(2, "En contra"); // persona 2
+    e->insertarRespuesta(2, "En contra"); // persona 1
+    cout << "cantidad de cambios: " << e->cantidadCambioRespuesta() << endl;
+
+    e->imprimeResultadoEncuesta2();
 
     return 0;
-}
-
-class Persona
-{
-public:
-    Persona(string _nombre)
-    {
-        nombre = _nombre;
-    }
-    Persona(string _nombre, int _edad)
-    {
-        nombre = _nombre;
-        edad = _edad;
-    }
-    Persona()
-    {
-    }
-    int edad;
-    string nombre;
-};
-
-class Rectangulo
-{
-public:
-    Rectangulo()
-    {
-    }
-    int area()
-    {
-        return (largo * ancho);
-    }
-    int perimetro()
-    {
-        return (2 * largo + 2 * ancho);
-    }
-    int largo, ancho;
-};
-
-class Nombre
-{
-public:
-    // atributos y metodos
-    string nombre;
-};
-
-class Rectangulo // nombre
-{
-public: //acceso
-    int largo, ancho; // atributos
-    int area(); // metodo
-    int perimetro(); // metodo
-};
-
-int main (){
-    Rectangulo rec; // creacion de objeto
-    rec.largo = 10; // valor a atributo
-    rec.ancho = 5; // valor a atributo
-    rec.area(); // llamada a metodo
-} */
-
-class Rectangulo
-{
-public:
-    int largo, ancho;
-
-    Rectangulo(int L, int A)
-    {
-        largo = L;
-        ancho = A;
-    };
-    Rectangulo()
-    {
-    }
-    int area()
-    {
-        return (largo * ancho);
-    }
-    int perimetro()
-    {
-        return (2 * largo + 2 * ancho);
-    }
-};
-
-int AreaMayor(Rectangulo r1, Rectangulo r2)
-{
-    if (r1.area() > r2.area())
-    {
-        return r1.area();
-    }
-    else
-    {
-        return r2.area();
-    }
-}
-
-class PuntoCartesiano
-{
-public:
-    int varX;
-    int varY;
-
-    PuntoCartesiano(int x, int y)
-    {
-        varX = x;
-        varY = y;
-    }
-
-    int distanciaOrigen()
-    {
-        return sqrt(varX * varX + varY * varY);
-    }
-};
-
-int DistanciaEntrePuntos(PuntoCartesiano p1, PuntoCartesiano p2)
-{
-    int dx = p2.varX - p1.varX;
-    int dy = p2.varY - p1.varY;
-    return sqrt(dx * dx + dy * dy);
-}
-
-class Producto
-{
-public:
-    float precio;
-    string nombre;
-    Producto(float p, string n)
-    {
-        precio = p;
-        nombre = n;
-    }
-
-    float AplicarDescuento(float porcentaje)
-    {
-        return precio - (precio * porcentaje / 100.0);
-    }
-};
-
-void compararPrecios(Producto p1, Producto p2)
-{
-    float precio2 = p2.AplicarDescuento(20); 
-
-    if (p1.precio < precio2)
-    {
-        cout << p1.nombre << " es más barato que " << p2.nombre << endl;
-    }
-    else if (p1.precio > precio2)
-    {
-        cout << p2.nombre << " es más barato que " << p1.nombre << endl;
-    }
-    else
-    {
-        cout << "Ambos productos tienen el mismo precio." << endl;
-    }
-}
-
-int main()
-{
-    /* Rectangulo r1(10, 5);
-    Rectangulo r2(8, 6);
-    int areaMayor = AreaMayor(r1, r2);
-    cout << "El area mayor es: " << areaMayor << endl;
-    return 0; */
 }

@@ -1,156 +1,77 @@
+// 03 de la solemne
 #include <iostream>
+#include <vector>
+
 using namespace std;
 
-// ------------------ EJERCICIO 1 --------------------
-class CuentaBancaria
+class Deportista
 {
-private:
-    string titular;
-    int saldo;
+protected:
+    string nombre;
+    string pais;
+    string especialidad;
 
 public:
-    CuentaBancaria(string _titular)
-    {
-        titular = _titular;
-        saldo = 0;
+    Deportista(string _nombre, string _pais, string _especialidad){
+        nombre = _nombre;
+        pais = _pais;
+        especialidad = _especialidad;
     }
-    void Depositar(int cantidad)
+
+    virtual void imprimir()
     {
-        saldo += cantidad;
-        cout << "Deposito exitoso, nuevo saldo: " << saldo << endl;
-    }
-    void Retirar(int cantidad)
-    {
-        if (cantidad > saldo)
-        {
-            cout << "Fondos insuficientes" << endl;
-            return;
-        }
-        saldo -= cantidad;
-        cout << "Retiro exitoso, nuevo saldo: " << saldo << endl;
-    }
-    void setTitular(string _titular)
-    {
-        titular = _titular;
-    }
-    string getTitular()
-    {
-        return titular;
-    }
-    int getSaldo()
-    {
-        return saldo;
+        cout << " Nombre : " << nombre << ", Pais : " << pais << ", Especialidad : " << especialidad << endl;
     }
 };
 
-// ------------------ EJERCICIO 2 --------------------
-class Alumno
-{
-private:
-    string nombre, rut;
-    float notas[10];
+class ParaDeportista : public Deportista{
+    private: 
+        string discapacidad;
 
-public:
-    Alumno(string _nombre, string _rut)
-    {
-        nombre = _nombre;
-        rut = _rut;
-        for (int i = 0; i < 10; i++)
-        {
-            notas[i] = 0;
+    public: 
+        ParaDeportista(string _nombre, string _pais, string _especialidad, string _discapacidad) : Deportista(_nombre, _pais, _especialidad){
+            discapacidad = _discapacidad;
         }
-    }
-    // getters
-    string getNombre()
-    {
-        return nombre;
-    }
-    string getRut()
-    {
-        return rut;
-    }
 
-    // setters
-    void setNombre(string _nombre)
-    {
-        nombre = _nombre;
-    }
-    void setRut(string _rut)
-    {
-        rut = _rut;
-    }
-
-    // metodos
-    void agregarNota(float nota)
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            if (notas[i] == NULL)
-            {
-                notas[i] = nota;
-                return;
-            }
+        void imprimir() override {
+            cout << " Nombre : " << nombre << ", Pais : " << pais << ", Especialidad : " << especialidad << endl;
+            cout << "Discapacidad: " << discapacidad << endl;
         }
-        cout << "No se pueden agregar más notas" << endl;
-    }
-
-    float getPromedio()
-    {
-        float suma = 0;
-        int contador = 0;
-        for (int i = 0; i < 10; i++)
-        {
-            if (notas[i] != NULL)
-            {
-                suma += notas[i];
-                contador++;
-            }
-        }
-        if (contador == 0)
-            return 0;
-        return suma / contador;
-    }
-    void mostrarInformacion()
-    {
-        cout << "Nombre: " << nombre << endl;
-        cout << "RUT: " << rut << endl;
-        cout << "Notas: ";
-        for (int i = 0; i < 10; i++)
-        {
-            if (notas[i] != NULL)
-            {
-                cout << notas[i] << " ";
-            }
-        }
-        cout << endl;
-        cout << "Promedio: " << getPromedio() << endl;
-    }
 };
 
-// ------------------ EJERCICIO 3 --------------------
-// casi x.x
+class Stgo2023{
+    private: 
+        vector<Deportista*> deportistas;
+
+    public:
+        Stgo2023(){};
+
+        void agregarDeportista(Deportista* d){
+            deportistas.push_back(d);
+        }
+
+        void listarParticipantes(){
+            for (int i = 0; i < deportistas.size(); i++){
+                deportistas[i]->imprimir();
+            }
+        }
+};
 
 int main()
 {
-    /* CuentaBancaria *cuenta = new CuentaBancaria("Juan Perez");
-    cuenta->Depositar(500);
-    cuenta->Retirar(200);
-    cuenta->setTitular("Maria Gomez");
-    cout << "Titular: " << cuenta->getTitular() << endl;
-    cout << "Saldo: " << cuenta->getSaldo() << endl; */
+    Stgo2023 *juegos = new Stgo2023();
+    
+    Deportista *d1 = new Deportista("Juan Perez", "Chile", "Natacion");
+    Deportista *d2 = new Deportista("Ana Gomez", "Argentina", "Atletismo"); 
+    ParaDeportista *pd1 = new ParaDeportista("Carlos Ruiz", "Peru", "Ciclismo", "Discapacidad Visual");
+    ParaDeportista *pd2 = new ParaDeportista("Luisa Fernandez", "Colombia", "Tenis en Silla de Ruedas", "Discapacidad Motriz");
 
-    /* Alumno *alumno = new Alumno("Pedro", "12345678-9");
-    alumno->agregarNota(6.5);
-    alumno->agregarNota(7.0);
-    alumno->agregarNota(5.5);
-    alumno->mostrarInformacion(); */
+    juegos->agregarDeportista(d1);
+    juegos->agregarDeportista(d2);
+    juegos->agregarDeportista(pd1);
+    juegos->agregarDeportista(pd2);
 
-    /* Biblioteca *biblioteca = new Biblioteca("Biblioteca Central");
-    Libro *libro1 = new Libro("El Quijote", "Miguel de Cervantes");
-    Libro *libro2 = new Libro("Las locuras del mono", "George Orwell");
-    biblioteca->agregarLibro(libro1);
-    biblioteca->agregarLibro(libro2);
-    biblioteca->mostrarLibros(); */
+    juegos->listarParticipantes();
 
     return 0;
 }
